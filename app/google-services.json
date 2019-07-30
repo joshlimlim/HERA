@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "87785800867",
+    "firebase_url": "https://heradatingapp.firebaseio.com",
+    "project_id": "heradatingapp",
+    "storage_bucket": "heradatingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87785800867:android:60570b3e257bbffb",
+        "android_client_info": {
+          "package_name": "com.mad.hera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87785800867-hmp3pa7jcm0m0qc18cv3430hugvb3odp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.hera",
+            "certificate_hash": "22ff6b1b2f6ed4da387401d116cd8bc11c5b2c52"
+          }
+        },
+        {
+          "client_id": "87785800867-6m8q88pvq6ke5eagqnpdcr2ved8r4mps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClf41t1a9VbgyF-qru4b6JLNmKg4Ih5ZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87785800867-6m8q88pvq6ke5eagqnpdcr2ved8r4mps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87785800867:android:ec563c9979297924",
+        "android_client_info": {
+          "package_name": "com.mad.heradatingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87785800867-rbqkpn3vo8k2cloforr5a5jr9ad80di6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.heradatingapp",
+            "certificate_hash": "a7a1c859cfa5323f1234cfa97d45ab6a0c95d291"
+          }
+        },
+        {
+          "client_id": "87785800867-c6eses2hi8qpl63clvvk0md0fg0d4qgu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.heradatingapp",
+            "certificate_hash": "22ff6b1b2f6ed4da387401d116cd8bc11c5b2c52"
+          }
+        },
+        {
+          "client_id": "87785800867-6m8q88pvq6ke5eagqnpdcr2ved8r4mps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClf41t1a9VbgyF-qru4b6JLNmKg4Ih5ZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87785800867-6m8q88pvq6ke5eagqnpdcr2ved8r4mps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
