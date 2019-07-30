@@ -47,10 +47,10 @@ public class SwipeCardActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<Cards>();
 
-        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems );
+        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-
+        Log.d("##### #####", arrayAdapter.getContext().toString());
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
