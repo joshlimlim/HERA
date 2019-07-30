@@ -8,15 +8,20 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +37,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
-    private EditText nameField, phoneField;
+
+    private EditText mNameField, mPhoneField;
 
     private Button mBack, mConfirm;
 
@@ -44,13 +50,14 @@ public class SettingsActivity extends AppCompatActivity {
     private String userId, name, phone, profileImageUrl, userSex;
 
     private Uri resultUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        nameField = (EditText)findViewById(R.id.name);
-        phoneField = (EditText)findViewById(R.id.phone);
+        mNameField = (EditText) findViewById(R.id.name);
+        mPhoneField = (EditText) findViewById(R.id.phone);
 
         mProfileImage = (ImageView) findViewById(R.id.profileImage);
 
@@ -58,7 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
         mConfirm = (Button) findViewById(R.id.confirm);
 
         mAuth = FirebaseAuth.getInstance();
-        userId = mAuth.getCurrentUser().getUid();mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        userId = mAuth.getCurrentUser().getUid();
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         getUserInfo();
 
@@ -94,11 +103,11 @@ public class SettingsActivity extends AppCompatActivity {
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(map.get("name")!=null){
                         name = map.get("name").toString();
-                        nameField.setText(name);
+                        mNameField.setText(name);
                     }
                     if(map.get("phone")!=null){
                         phone = map.get("phone").toString();
-                        phoneField.setText(phone);
+                        mPhoneField.setText(phone);
                     }
                     if(map.get("sex")!=null){
                         userSex = map.get("sex").toString();
@@ -127,8 +136,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void saveUserInformation() {
-        name = nameField.getText().toString();
-        phone = phoneField.getText().toString();
+        name = mNameField.getText().toString();
+        phone = mPhoneField.getText().toString();
 
         Map userInfo = new HashMap();
         userInfo.put("name", name);
@@ -157,10 +166,14 @@ public class SettingsActivity extends AppCompatActivity {
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
+                    while(!uri.isComplete());
+                    Uri url = uri.getResult();
+
+                    Toast.makeText(SettingsActivity.this,"Upload success, download URL: "+url.toString(),Toast.LENGTH_LONG).show();
 
                     Map userInfo = new HashMap();
-                    userInfo.put("profileImageUrl", downloadUrl.toString());
+                    userInfo.put("profileImageUrl", url.toString());
                     mUserDatabase.updateChildren(userInfo);
 
                     finish();
