@@ -20,4 +20,3 @@ public class ChatViewHolders extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View view) {
     }
 }
-
