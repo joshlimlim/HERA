@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if (userMatcher.matches() && passMatcher.matches()) {
-                    Toast tt = Toast.makeText(LoginActivity.this, "REGEX MATCH", Toast.LENGTH_LONG);
+                    Toast tt = Toast.makeText(LoginActivity.this, "Valid", Toast.LENGTH_LONG);
                     tt.show();
                     mAuth.signInWithEmailAndPassword(email, passWord).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override

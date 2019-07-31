@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Matcher passMatcher = passPattern.matcher(passWord);
 
                 if (userMatcher.matches() && passMatcher.matches()) {
-                    Toast tt = Toast.makeText(RegisterActivity.this, "REGEX MATCH", Toast.LENGTH_LONG);
+                    Toast tt = Toast.makeText(RegisterActivity.this, "Valid", Toast.LENGTH_LONG);
                     tt.show();
                     mAuth.createUserWithEmailAndPassword(email, passWord).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
