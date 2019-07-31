@@ -64,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+        getChatMessages();
     }
 
     private void sendMessage() {
