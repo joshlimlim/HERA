@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText txtName, txtAge, txtEmail, txtPassword;
@@ -72,22 +75,37 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(email, passWord).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this,"sign up error",Toast.LENGTH_LONG).show();
-                        }else{
-                            String userId = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Member").child(userId);
-                            Map userInfo = new HashMap<>();
-                            userInfo.put("name",name);
-                            userInfo.put("sex",radioButton.getText().toString());
-                            userInfo.put("profileImageUrl","default");
-                            currentUserDb.updateChildren(userInfo);
+                Pattern userPattern = Pattern.compile("^(.+)@(.+)$");
+                Matcher userMatcher = userPattern.matcher(email);
+
+                Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[!@#$%^&*+=])(?=.*[a-zA-Z]).{1,}$");
+                Matcher passMatcher = passPattern.matcher(passWord);
+
+                if (userMatcher.matches() && passMatcher.matches()) {
+                    Toast tt = Toast.makeText(RegisterActivity.this, "REGEX MATCH", Toast.LENGTH_LONG);
+                    tt.show();
+                    mAuth.createUserWithEmailAndPassword(email, passWord).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()){
+                                Toast.makeText(RegisterActivity.this,"sign up error",Toast.LENGTH_LONG).show();
+                            }else{
+                                String userId = mAuth.getCurrentUser().getUid();
+                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Member").child(userId);
+                                Map userInfo = new HashMap<>();
+                                userInfo.put("name",name);
+                                userInfo.put("sex",radioButton.getText().toString());
+                                userInfo.put("profileImageUrl","default");
+                                currentUserDb.updateChildren(userInfo);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast tt = Toast.makeText(RegisterActivity.this, "Email or Password Invalid", Toast.LENGTH_LONG);
+                    tt.show();
+                }
+
+
             }
         });
     }

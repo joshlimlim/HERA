@@ -17,6 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPassword;
     Button btnLogin;
@@ -52,15 +55,47 @@ public class LoginActivity extends AppCompatActivity {
                 final String email = txtEmail.getText().toString();
                 final String passWord = txtPassword.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, passWord).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this,"Sign in error",Toast.LENGTH_LONG).show();
+                Pattern userPattern = Pattern.compile("^(.+)@(.+)$");
+                Matcher userMatcher = userPattern.matcher(email);
+
+                Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[!@#$%^&*+=])(?=.*[a-zA-Z]).{1,}$");
+                Matcher passMatcher = passPattern.matcher(passWord);
+
+
+                if (userMatcher.matches() && passMatcher.matches()) {
+                    Toast tt = Toast.makeText(LoginActivity.this, "REGEX MATCH", Toast.LENGTH_LONG);
+                    tt.show();
+                    mAuth.signInWithEmailAndPassword(email, passWord).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this,"Sign in error",Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast tt = Toast.makeText(LoginActivity.this, "Email or Password Invalid", Toast.LENGTH_LONG);
+                    tt.show();
+                }
+
+
+
             }
+
+//            @Override
+//            public void onClick(View view) {
+//                final String email = txtEmail.getText().toString();
+//                final String passWord = txtPassword.getText().toString();
+//
+//                mAuth.signInWithEmailAndPassword(email, passWord).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (!task.isSuccessful()){
+//                            Toast.makeText(LoginActivity.this,"Sign in error",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//            }
         });
     }
     @Override
