@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeCardActivity extends AppCompatActivity {
-    private Cards cards_data[];
+    private cards cards_data[];
     private com.mad.hera.arrayAdapter arrayAdapter;
     private int i;
 
@@ -33,19 +33,20 @@ public class SwipeCardActivity extends AppCompatActivity {
     private DatabaseReference usersDb;
 
     ListView listView;
-    List<Cards> rowItems;
+    List<cards> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
+        setContentView(R.layout.activity_swipe_card);
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Member");
 
         mAuth = FirebaseAuth.getInstance();
         currentUId = mAuth.getCurrentUser().getUid();
 
         checkUserSex();
 
-        rowItems = new ArrayList<Cards>();
+        rowItems = new ArrayList<cards>();
 
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
 
@@ -62,20 +63,19 @@ public class SwipeCardActivity extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-
-                Cards obj = (Cards) dataObject;
+                cards obj = (cards) dataObject;
                 String userId = obj.getUserId();
                 usersDb.child(userId).child("connections").child("nope").child(currentUId).setValue(true);
-                Toast.makeText(SwipeCardActivity.this, "Left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipeCardActivity.this, "Rejected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Cards obj = (Cards) dataObject;
+                cards obj = (cards) dataObject;
                 String userId = obj.getUserId();
                 usersDb.child(userId).child("connections").child("yeps").child(currentUId).setValue(true);
                 isConnectionMatch(userId);
-                Toast.makeText(SwipeCardActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipeCardActivity.this, "Accepted", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -159,7 +159,7 @@ public class SwipeCardActivity extends AppCompatActivity {
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         }
-                        Cards item = new Cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
                         rowItems.add(item);
                         arrayAdapter.notifyDataSetChanged();
                     }
