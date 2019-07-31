@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.mad.hera.SettingsActivity"
     android:orientation="vertical"
+    android:background="@drawable/blur"
     android:padding="20sp">
     <ImageView
         android:layout_width="100sp"
