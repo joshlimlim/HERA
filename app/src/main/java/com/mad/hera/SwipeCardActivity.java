@@ -122,6 +122,8 @@ public class SwipeCardActivity extends AppCompatActivity {
 
     private String userSex;
     private String oppositeUserSex;
+
+    // Checks the sex of the user, and will set the opposite sex accordingly
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userDb = usersDb.child(user.getUid());
@@ -182,7 +184,7 @@ public class SwipeCardActivity extends AppCompatActivity {
         });
     }
 
-
+    // Log the user out from the application
     public void logoutUser(View view) {
         mAuth.signOut();
         Intent intent = new Intent(SwipeCardActivity.this, MainActivity.class);

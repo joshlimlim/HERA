@@ -28,6 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    // Variables present in the Register Activity
     EditText txtName, txtAge, txtEmail, txtPassword;
     Button btnSignup;
     ContactsContract.Profile member;
@@ -55,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         };
+
+        // Retrieve all user inputs in the Register page and store in the variables
         txtName = (EditText)findViewById(R.id.etUsername);
         txtAge = (EditText)findViewById(R.id.etAge);
         txtEmail = (EditText)findViewById(R.id.etEmail);
@@ -75,12 +79,14 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Check Regex for email and password
                 Pattern userPattern = Pattern.compile("^(.+)@(.+)$");
                 Matcher userMatcher = userPattern.matcher(email);
 
                 Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[!@#$%^&*+=])(?=.*[a-zA-Z]).{1,}$");
                 Matcher passMatcher = passPattern.matcher(passWord);
 
+                // If else for Regex pass and fail
                 if (userMatcher.matches() && passMatcher.matches()) {
                     Toast tt = Toast.makeText(RegisterActivity.this, "Valid", Toast.LENGTH_LONG);
                     tt.show();
@@ -121,6 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
     }
 
+    // Returns back to Main Page
     public void onHome(View v) {
         ImageButton imgbtnBack = (ImageButton) v;
         Intent in = new Intent(RegisterActivity.this, MainActivity.class);

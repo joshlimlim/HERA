@@ -21,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // Variables present in the Login Activity
     EditText txtEmail, txtPassword;
     Button btnLogin;
     //DatabaseReference reff;
@@ -33,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+
+        // Checks if the user logout previously, otherwise it will login to the previous session
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -46,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        // Retrieves all user inputs in the Login Activity
         txtEmail = (EditText)findViewById(R.id.etEmail);
         txtPassword = (EditText)findViewById(R.id.etPassword);
         btnLogin = (Button)findViewById(R.id.btnLogin);
@@ -55,13 +60,14 @@ public class LoginActivity extends AppCompatActivity {
                 final String email = txtEmail.getText().toString();
                 final String passWord = txtPassword.getText().toString();
 
+                // Regex for email and password
                 Pattern userPattern = Pattern.compile("^(.+)@(.+)$");
                 Matcher userMatcher = userPattern.matcher(email);
 
                 Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[!@#$%^&*+=])(?=.*[a-zA-Z]).{1,}$");
                 Matcher passMatcher = passPattern.matcher(passWord);
 
-
+                // If else check for Regex pass or fail
                 if (userMatcher.matches() && passMatcher.matches()) {
                     Toast tt = Toast.makeText(LoginActivity.this, "Valid", Toast.LENGTH_LONG);
                     tt.show();

@@ -13,12 +13,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+    // Method called by Registration button
     public void onSignup(View v){
         Button btnSignup = (Button)v;
         Intent in = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(in);
     }
 
+    // Method called by Login button
     public void onLogin(View v){
         Button btnLogin = (Button)v;
         Intent in = new Intent(MainActivity.this,LoginActivity.class);
