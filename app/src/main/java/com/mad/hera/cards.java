@@ -1,5 +1,7 @@
 package com.mad.hera;
 
+// Card class for cards that will appear in the swipe cards in the main page after user logs in
+// Stores userId, name and profile image
 public class cards {
     private String userId;
     private String name;
