@@ -62,6 +62,7 @@ public class SwipeCardActivity extends AppCompatActivity {
                 arrayAdapter.notifyDataSetChanged();
             }
 
+            // When user swipes left, add the connection to the database for rejected
             @Override
             public void onLeftCardExit(Object dataObject) {
                 cards obj = (cards) dataObject;
@@ -70,6 +71,7 @@ public class SwipeCardActivity extends AppCompatActivity {
                 Toast.makeText(SwipeCardActivity.this, "Rejected", Toast.LENGTH_SHORT).show();
             }
 
+            // When user swipes right, add the connection to the database for accepted
             @Override
             public void onRightCardExit(Object dataObject) {
                 cards obj = (cards) dataObject;

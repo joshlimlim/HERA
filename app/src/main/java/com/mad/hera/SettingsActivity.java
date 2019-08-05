@@ -67,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
 
+        // Getting the user's details and displaying them with function getUserInfo()
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Member").child(userId);
 
         getUserInfo();
@@ -79,6 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        // Retrieves all of the new information from the settings page and saves it into Firebase
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
+    // Get user's name, phone number, sex and profile image
     private void getUserInfo() {
         mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,6 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
         userInfo.put("name", name);
         userInfo.put("phone", phone);
         mUserDatabase.updateChildren(userInfo);
+        // Retrieving Firebase route to store profile image
         if(resultUri != null){
             StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
             Bitmap bitmap = null;
