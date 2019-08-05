@@ -99,13 +99,14 @@ public class SwipeCardActivity extends AppCompatActivity {
 
     }
 
+    // Updates the matches for the user
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yeps").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    Toast.makeText(SwipeCardActivity.this, "new Connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SwipeCardActivity.this, "New Connection", Toast.LENGTH_LONG).show();
 
                     String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
 
@@ -152,6 +153,7 @@ public class SwipeCardActivity extends AppCompatActivity {
         });
     }
 
+    // Method to get the swipe cards for the users of the opposite sex
     public void getOppositeSexUsers(){
         usersDb.addChildEventListener(new ChildEventListener() {
             @Override
@@ -193,12 +195,14 @@ public class SwipeCardActivity extends AppCompatActivity {
         return;
     }
 
+    // Directs the user to the settings page where user will be allowed to upload images and change user details
     public void goToSettings(View view) {
         Intent intent = new Intent(SwipeCardActivity.this, SettingsActivity.class);
         startActivity(intent);
         return;
     }
 
+    // Directs the user to the matches page where user can see other users they have matched with
     public void goToMatches(View view) {
         Intent intent = new Intent(SwipeCardActivity.this, MatchesActivity.class);
         startActivity(intent);
