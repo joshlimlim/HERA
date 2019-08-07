@@ -44,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
 
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchId).child("ChatId");
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Member").child(currentUserID).child("connections").child("matches").child(matchId).child("ChatId");
         mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
 
         getChatId();
@@ -63,14 +63,12 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getChatId();
+                sendMessage();
             }
         });
-
-        getChatMessages();
     }
 
-    private void sendMessage(String ChatId) {
+    private void sendMessage() {
         String sendMessageText = mSendEditText.getText().toString();
         if (!sendMessageText.isEmpty()) {
             DatabaseReference newMessageDb = mDatabaseChat.push();
@@ -78,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
             Map newMessage = new HashMap();
             newMessage.put("createdByUser", currentUserID);
             newMessage.put("text", sendMessageText);
-            newMessageDb.child(ChatId).setValue(newMessage);
+            newMessageDb.setValue(newMessage);
         }
         mSendEditText.setText(null);
     }
@@ -91,9 +89,6 @@ public class ChatActivity extends AppCompatActivity {
                     chatId = dataSnapshot.getValue().toString();
                     mDatabaseChat = mDatabaseChat.child(chatId);
                     getChatMessages();
-                }
-                else{
-                    sendMessage(chatId);
                 }
             }
 
@@ -111,25 +106,23 @@ public class ChatActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String message = null;
                     String createdByUser = null;
-
-                    if (mDatabaseChat.getKey().equals(chatId)){
-                        if (dataSnapshot.child("text").getValue() != null) {
-                            message = dataSnapshot.child("text").getValue().toString();
-                        }
-                        if (dataSnapshot.child("createdByUser").getValue() != null) {
-                            createdByUser = dataSnapshot.child("createdByUser").getValue().toString();
-                        }
-
-                        if (message != null && createdByUser != null) {
-                            Boolean currentUserBoolean = false;
-                            if (createdByUser.equals(currentUserID)) {
-                                currentUserBoolean = true;
-                            }
-                            ChatObject newMessage = new ChatObject(message, currentUserBoolean);
-                            resultsChat.add(newMessage);
-                            mChatAdapter.notifyDataSetChanged();
-                        }
+                    if (dataSnapshot.child("text").getValue() != null) {
+                        message = dataSnapshot.child("text").getValue().toString();
                     }
+                    if (dataSnapshot.child("createdByUser").getValue() != null) {
+                        createdByUser = dataSnapshot.child("createdByUser").getValue().toString();
+                    }
+
+                    if (message != null && createdByUser != null) {
+                        Boolean currentUserBoolean = false;
+                        if (createdByUser.equals(currentUserID)) {
+                            currentUserBoolean = true;
+                        }
+                        ChatObject newMessage = new ChatObject(message, currentUserBoolean);
+                        resultsChat.add(newMessage);
+                        mChatAdapter.notifyDataSetChanged();
+                    }
+
                 }
 
             }

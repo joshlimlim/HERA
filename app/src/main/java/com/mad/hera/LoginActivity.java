@@ -69,8 +69,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 // If else check for Regex pass or fail
                 if (userMatcher.matches() && passMatcher.matches()) {
-                    Toast tt = Toast.makeText(LoginActivity.this, "Valid", Toast.LENGTH_LONG);
-                    tt.show();
                     mAuth.signInWithEmailAndPassword(email, passWord).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -80,8 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast tt = Toast.makeText(LoginActivity.this, "Email or Password Invalid", Toast.LENGTH_LONG);
-                    tt.show();
+                    Toast.makeText(LoginActivity.this, "Email or Password Invalid", Toast.LENGTH_LONG).show();
                 }
 
 
